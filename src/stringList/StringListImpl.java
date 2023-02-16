@@ -5,7 +5,7 @@ public class StringListImpl implements StringList {
     private String[] arr;
     private int size;
 
-    public StringListImpl(int capacity) {
+    public StringListImpl(int size) {
         if (size > 0) {
             this.arr = new String[size];
         } else if (size == 0) {
@@ -24,7 +24,7 @@ public class StringListImpl implements StringList {
     public String add(String item) {
        if(arr[arr.length-1] != null){
            String[] newArr = new String[arr.length*2];
-           System.arraycopy(arr,0,0,0,arr.length);
+           System.arraycopy(arr,0,arr,0,arr.length);
            arr = newArr;
        }
        return arr[size++] = item;
@@ -34,7 +34,7 @@ public class StringListImpl implements StringList {
     public String add(int index, String item) {
         if(arr[arr.length-1] != null){
             String[] newArr = new String[arr.length*2];
-            System.arraycopy(arr,0,0,0,index-1);
+            System.arraycopy(arr,0,arr,0,index-1);
             newArr[index]=item;
             System.arraycopy(arr,index,newArr,+1,arr.length);
         } else {
@@ -156,6 +156,6 @@ public class StringListImpl implements StringList {
     public String toString() {
         return "StringListImpl : " +
                 " arr= " + Arrays.toString(arr) +
-                " size= " + size+ ";";
+                " size= " + size + ";";
     }
 }
