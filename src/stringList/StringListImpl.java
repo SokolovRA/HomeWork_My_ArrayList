@@ -22,19 +22,19 @@ public class StringListImpl implements StringList {
     }
     @Override
     public String add(String item) {
-       if(arr[arr.length-1] != null){
-           String[] newArr = new String[arr.length*2];
-           System.arraycopy(arr,0,arr,0,arr.length);
-           arr = newArr;
-       }
-       return arr[size++] = item;
+        if(arr[arr.length-1] != null){
+            String[] newArr = new String[arr.length*2];
+            System.arraycopy(arr,0,newArr,0,arr.length);
+            arr = newArr;
+        }
+        return arr[size++] = item;
     }
 
     @Override
     public String add(int index, String item) {
         if(arr[arr.length-1] != null){
             String[] newArr = new String[arr.length*2];
-            System.arraycopy(arr,0,arr,0,index-1);
+            System.arraycopy(arr,0,newArr,0,index-1);
             newArr[index]=item;
             System.arraycopy(arr,index,newArr,+1,arr.length);
         } else {
@@ -50,10 +50,10 @@ public class StringListImpl implements StringList {
 
     @Override
     public String set(int index, String item) {
-            Examination(index);
-            arr[index] = item;
-            return item;
-        }
+        Examination(index);
+        arr[index] = item;
+        return item;
+    }
 
 
     @Override
@@ -61,14 +61,14 @@ public class StringListImpl implements StringList {
         if (!contains(item)) {
             throw new IllegalArgumentException("Нет такой строки");
         }
-            for (int i = 0; i < arr.length; i++) {
-                if (arr[i] != null && arr[i].equals(item)) {
-                    System.arraycopy(arr, i + 1, arr, i, arr.length - i - 1);
-                    size--;
-                }
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] != null && arr[i].equals(item)) {
+                System.arraycopy(arr, i + 1, arr, i, arr.length - i - 1);
+                size--;
             }
-            return item;
         }
+        return item;
+    }
     @Override
     public String remove(int index) {
         Examination(index);
@@ -114,7 +114,7 @@ public class StringListImpl implements StringList {
     @Override
     public boolean equals(StringList otherList) {
         if (otherList == null) {
-              throw new NullPointerException() ;
+            throw new NullPointerException() ;
         }
         if (this.size() != otherList.size())
             return false;
@@ -156,6 +156,6 @@ public class StringListImpl implements StringList {
     public String toString() {
         return "StringListImpl : " +
                 " arr= " + Arrays.toString(arr) +
-                " size= " + size + ";";
+                " size= " + size+ ";";
     }
 }
