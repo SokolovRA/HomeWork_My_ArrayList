@@ -1,4 +1,4 @@
-package stringList;
+package list;
 
 public interface StringList {
     // Добавление элемента.

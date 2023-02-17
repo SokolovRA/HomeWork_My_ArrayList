@@ -1,9 +1,10 @@
-package stringList;
+package list;
 import java.util.Arrays;
 public class StringListImpl implements StringList {
 
     private String[] arr;
     private int size;
+
 
     public StringListImpl(int size) {
         if (size > 0) {
@@ -11,40 +12,36 @@ public class StringListImpl implements StringList {
         } else if (size == 0) {
             this.arr = new String[10];
         } else {
-            throw new IllegalArgumentException("Illegal size: " +
-                    size);
+            throw new IllegalArgumentException("Illegal" +size);
         }
     }
     private  void Examination(int index) {
-        if (index < 0 || index >= arr.length) {
+        if (index < 0 || index >= size) {
             throw new ArrayIndexOutOfBoundsException(index + " - несуществующий индекс");
         }
     }
     @Override
     public String add(String item) {
-        if(arr[arr.length-1] != null){
-            String[] newArr = new String[arr.length*2];
-            System.arraycopy(arr,0,newArr,0,arr.length);
-            arr = newArr;
-        }
-        return arr[size++] = item;
+        grow();
+        arr[size++] = item;
+        return item;
     }
 
     @Override
     public String add(int index, String item) {
-        if(arr[arr.length-1] != null){
-            String[] newArr = new String[arr.length*2];
-            System.arraycopy(arr,0,newArr,0,index-1);
-            newArr[index]=item;
-            System.arraycopy(arr,index,newArr,+1,arr.length);
-        } else {
-            String[] newArr = new String[arr.length];
-            System.arraycopy(arr,0,newArr,0,index);
-            newArr[index] = item;
-            System.arraycopy(arr,index,newArr,index +1,arr.length - (index+1));
-            arr = newArr;
+        Examination(index);
+        grow();
+        String[] newArr = Arrays.copyOf(arr, size);
+        System.arraycopy(newArr, 0, arr, 0, index);
+        arr[index] = item;
+        System.arraycopy(newArr, index, arr, index + 1, newArr.length - index);
+        size++;
+        return item;
+    }
+    private void grow() {
+        if (arr[arr.length - 1] != null) {
+            arr = Arrays.copyOf(arr, arr.length * 3 / 2);
         }
-        return arr[size++]=item;
     }
 
 

@@ -1,19 +1,22 @@
-import stringList.StringListImpl;
-
-import java.util.ArrayList;
+import list.StringListImpl;
 
 public class Main {
     public static void main(String[] args) {
-        StringListImpl stringList = new StringListImpl(20);
+        StringListImpl stringList = new StringListImpl(5);
         stringList.add("1");
         stringList.add("2");
         stringList.add("3");
         stringList.add("4");
         stringList.add("5");
-        stringList.add("6");
-        stringList.add("7");
-        stringList.add("8");
-//        stringList.add(9,"5");
+//        stringList.add("6");
+//        stringList.add("7");
+//        stringList.add("8");
+//        stringList.add("9");
+//        stringList.add("10");
+//        stringList.add("11");
+
+
+        stringList.add(2,"5");
 //        stringList.set(1,"7");
 //        stringList.remove("8");
 //        stringList.remove(2);
