@@ -1,60 +1,61 @@
 package list;
+
 import java.util.Arrays;
-public class StringListImpl implements MyList<String> {
 
-    private String[] arr;
-    private int size;
+public class IntegerListImpl<G> implements MyList<Integer> {
+    private Integer[] arr;
+    private Integer size;
+    private static final int CAPACITY = 10;
 
-
-    public StringListImpl(int size) {
-        if (size > 0) {
-            this.arr = new String[size];
-        } else if (size == 0) {
-            this.arr = new String[10];
-        } else {
-            throw new IllegalArgumentException("Illegal" +size);
-        }
+    public IntegerListImpl() {
+        this.arr = new Integer[CAPACITY];
+        this.size = 0;
     }
-    private  void Examination(int index) {
+
+    public IntegerListImpl(int capacity) {
+        this.arr = new Integer[capacity];
+        this.size = 0;
+    }
+
+    private void Examination(int index) {
         if (index < 0 || index >= size) {
             throw new ArrayIndexOutOfBoundsException(index + " - несуществующий индекс");
         }
-    }
-    @Override
-    public String add(String item) {
-        grow();
-        arr[size++] = item;
-        return item;
-    }
-
-    @Override
-    public String add(int index, String item) {
-        Examination(index);
-        grow();
-        String[] newArr = Arrays.copyOf(arr, size);
-        System.arraycopy(newArr, 0, arr, 0, index);
-        arr[index] = item;
-        System.arraycopy(newArr, index, arr, index + 1, newArr.length - index);
-        size++;
-        return item;
     }
     private void grow() {
         if (arr[arr.length - 1] != null) {
             arr = Arrays.copyOf(arr, arr.length * 3 / 2);
         }
     }
+    @Override
+    public Integer add(Integer item) {
+        grow();
+        arr[size++] = item;
+        return item;
+    }
 
     @Override
-    public String set(int index, String item) {
+    public Integer add(int index, Integer item) {
+        Examination(index);
+        grow();
+        Integer[] newArr = Arrays.copyOf(arr, size);
+        System.arraycopy(newArr, 0, arr, 0, index);
+        arr[index] = item;
+        System.arraycopy(newArr, index, arr, index + 1, newArr.length - index);
+        size++;
+        return item;
+    }
+
+    @Override
+    public Integer set(int index, Integer item) {
         Examination(index);
         arr[index] = item;
         return item;
     }
 
-
     @Override
-    public String remove(String item) {
-        if(!contains(item)){
+    public Integer remove(Integer item) {
+        if (!contains(item)) {
             throw new IllegalArgumentException("Нет такой строки");
         }
         for (int i = 0; i < arr.length; i++) {
@@ -65,25 +66,40 @@ public class StringListImpl implements MyList<String> {
         }
         return item;
     }
+
     @Override
-    public String remove(int index) {
+    public Integer remove(int index) {
         Examination(index);
         System.arraycopy(arr,index+1,arr,index,arr.length-index-1);
         return null;
     }
 
     @Override
-    public boolean contains(String item) {
-        for (String string : arr) {
-            if (string != null && string.equals(item)) {
+    public boolean contains(Integer item) {
+        return binaryContains(item);
+    }
+    private boolean binaryContains(int item) {
+        int min = 0;
+        int max = arr.length - 1;
+
+        while (min <= max) {
+            int mid = (min + max) / 2;
+
+            if (item == arr[mid]) {
                 return true;
+            }
+
+            if (item < arr[mid]) {
+                max = mid - 1;
+            } else {
+                min = mid + 1;
             }
         }
         return false;
     }
 
     @Override
-    public int indexOf(String item) {
+    public int indexOf(Integer item) {
         for (int i = 0; i < arr.length; i++) {
             if (arr[i] != null && arr[i].equals(item)) {
                 return i;
@@ -93,7 +109,7 @@ public class StringListImpl implements MyList<String> {
     }
 
     @Override
-    public int lastIndexOf(String item) {
+    public int lastIndexOf(Integer item) {
         for (int i = arr.length - 1; i >= 0; i--) {
             if (arr[i] != null && arr[i].equals(item)) {
                 return i;
@@ -101,14 +117,16 @@ public class StringListImpl implements MyList<String> {
         }
         return -1;
     }
+
     @Override
-    public String get(int index) {
+    public Integer get(int index) {
         Examination(index);
         return arr[index];
     }
 
+
     @Override
-    public boolean equals(MyList otherList) {
+    public boolean equals(MyList<Integer> otherList) {
         if (otherList == null) {
             throw new NullPointerException() ;
         }
@@ -142,16 +160,33 @@ public class StringListImpl implements MyList<String> {
     }
 
     @Override
-    public String[] toArray() {
-        String[] result = new String[size];
+    public Integer[] toArray() {
+        Integer[] result = new Integer[size];
         System.arraycopy(arr, 0, result, 0, size);
         return result;
     }
 
     @Override
     public String toString() {
-        return "StringListImpl : " +
-                " arr= " + Arrays.toString(arr) +
-                " size= " + size+ ";";
+        return "IntegerListImpl{" +
+                "arr=" + Arrays.toString(arr) +
+                ", size=" + size +
+                '}';
+    }
+    private static void swapElements(int[] arr, int indexA, int indexB) {
+        int tmp = arr[indexA];
+        arr[indexA] = arr[indexB];
+        arr[indexB] = tmp;
+    }
+    private  void sortSelection(int[] arr) {
+        for (int i = 0; i < arr.length - 1; i++) {
+            int minElementIndex = i;
+            for (int j = i + 1; j < arr.length; j++) {
+                if (arr[j] < arr[minElementIndex]) {
+                    minElementIndex = j;
+                }
+            }
+            swapElements(arr, i, minElementIndex);
+        }
     }
 }
