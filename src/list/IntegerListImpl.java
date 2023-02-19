@@ -76,6 +76,10 @@ public class IntegerListImpl<G> implements MyList<Integer> {
 
     @Override
     public boolean contains(Integer item) {
+        if(item==null){
+            throw new NullPointerException("Значение не передано");
+        }
+        quickSort(arr,0,size-1);
         return binaryContains(item);
     }
     private boolean binaryContains(int item) {
@@ -173,12 +177,12 @@ public class IntegerListImpl<G> implements MyList<Integer> {
                 ", size=" + size +
                 '}';
     }
-    private static void swapElements(int[] arr, int indexA, int indexB) {
+    private static void swapElements(Integer[] arr, int indexA, int indexB) {
         int tmp = arr[indexA];
         arr[indexA] = arr[indexB];
         arr[indexB] = tmp;
     }
-    private  void sortSelection(int[] arr) {
+    private  void sortSelection(Integer[] arr) {
         for (int i = 0; i < arr.length - 1; i++) {
             int minElementIndex = i;
             for (int j = i + 1; j < arr.length; j++) {
@@ -188,5 +192,27 @@ public class IntegerListImpl<G> implements MyList<Integer> {
             }
             swapElements(arr, i, minElementIndex);
         }
+    }public static void quickSort(Integer[] arr, int begin, int end) {
+        if (begin < end) {
+            int partitionIndex = partition(arr, begin, end);
+
+            quickSort(arr, begin, partitionIndex - 1);
+            quickSort(arr, partitionIndex + 1, end);
+        }
+    }
+    private static int partition(Integer[] arr, int begin, int end) {
+        int pivot = arr[end];
+        int i = (begin - 1);
+
+        for (int j = begin; j < end; j++) {
+            if (arr[j] <= pivot) {
+                i++;
+
+                swapElements(arr, i, j);
+            }
+        }
+
+        swapElements(arr, i + 1, end);
+        return i + 1;
     }
 }

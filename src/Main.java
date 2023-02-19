@@ -40,7 +40,7 @@ public class Main {
         integerList.add(19);
         integerList.add(19);
         integerList.add(19);
-//        System.out.println(integerList.contains(18));
+        System.out.println(integerList.contains(18));
 
 
 
